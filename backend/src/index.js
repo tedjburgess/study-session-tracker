@@ -5,6 +5,7 @@ require("dotenv").config();
 
 const studySessionRoutes = require("./routes/studySessionRoutes");
 const courseRoutes = require("./routes/courseRoutes");
+const studyGoalRoutes = require("./routes/studyGoalRoutes");
 
 const app = express();
 
@@ -13,6 +14,7 @@ app.use(express.json());
 
 app.use("/api/study-sessions", studySessionRoutes);
 app.use("/api/courses", courseRoutes);
+app.use("/api/study-goals", studyGoalRoutes);
 
 app.get("/", (req, res) => {
   res.json({ message: "API is running" });
