@@ -10,6 +10,23 @@ const getStudySessions = async (req, res) => {
   }
 };
 
+const getStudySessionById = async (req, res) => {
+  try {
+    const sessionId = req.params.id;
+    if (!require("mongoose").Types.ObjectId.isValid(sessionId)) {
+      return res.status(400).json({message: "Invalid study session id format"});
+    }
+    const studySession = await StudySession.findById(sessionId);
+    if (!studySession) {
+      return res.status(404).json({ message: "No study session associated with the requested id"})
+    }
+
+    res.status(200).json(studySession);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to get study session" });
+  }
+};
+
 const createStudySession = async (req, res) => {
   try {
     // 1. Get the incoming JSON body
@@ -43,5 +60,6 @@ const createStudySession = async (req, res) => {
 module.exports = {
   getStudySessions,
   createStudySession,
+  getStudySessionById
 };
 
