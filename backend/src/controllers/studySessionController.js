@@ -112,9 +112,37 @@ const patchStudySessionById = async (req, res) => {
   }
 };
 
+const deleteStudySessionById = async (req, res) => {
+  try {
+    const sessionId = req.params.id;
+
+    if (!require("mongoose").Types.ObjectId.isValid(sessionId)) {
+      return res.status(400).json({
+        message: "Invalid study session id format",
+      });
+    }
+
+    const deletedSession = await StudySession.findByIdAndDelete(sessionId);
+
+    if (!deletedSession) {
+      return res.status(404).json({
+        message: "No study session associated with the requested id",
+      });
+    }
+
+    res.status(200).json({
+      message: "Study session deleted successfully",
+      deletedSession,
+    });
+  } catch (error) {
+    res.status(500).json({ message: "Failed to delete study session" });
+  }
+};
+
 module.exports = {
   getStudySessions,
   createStudySession,
   getStudySessionById,
-  patchStudySessionById
+  patchStudySessionById,
+  deleteStudySessionById
 };
