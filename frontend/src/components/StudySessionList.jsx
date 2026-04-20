@@ -7,7 +7,9 @@ function StudySessionList({ studySessions }) {
     <section>
       <h2>Study Sessions</h2>
       <div>
-        {studySessions[0] && <StudySessionRow studySession={studySessions[0]} />}
+        {studySessions.map((studySession) => (
+            <StudySessionRow key={studySession._id} studySession={studySession} />
+        ))}
       </div>
     </section>
   );
