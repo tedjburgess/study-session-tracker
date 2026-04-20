@@ -1,7 +1,7 @@
-function StudySessionRow() {
+function StudySessionRow( { studySession } ) {
   return (
     <div>
-      Example study session row
+      {studySession.topic}
     </div>
   );
 }

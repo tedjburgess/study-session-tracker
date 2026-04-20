@@ -1,11 +1,13 @@
 import StudySessionRow from "./StudySessionRow";
 
-function StudySessionList() {
-  return (
+function StudySessionList({ studySessions }) {
+    console.log(studySessions);
+  
+    return (
     <section>
       <h2>Study Sessions</h2>
       <div>
-        <StudySessionRow />
+        {studySessions[0] && <StudySessionRow studySession={studySessions[0]} />}
       </div>
     </section>
   );
