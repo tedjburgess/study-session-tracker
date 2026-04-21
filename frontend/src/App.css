@@ -182,3 +182,7 @@
     border-right-color: var(--border);
   }
 }
+
+.form-group label {
+  margin-right: 8px;
+}
