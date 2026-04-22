@@ -1,7 +1,8 @@
 import { useState } from "react";
 
-function StudySessionForm() {
+function StudySessionForm( { onStudySessionCreated } ) {
   const [formData, setFormData] = useState({ //formData = object holding form values, setFormData = updates values from user input
+    courseId: "",
     sessionDate: "",
     durationMinutes: "",
     focusRating: "",
@@ -10,11 +11,48 @@ function StudySessionForm() {
   });
 
   console.log(formData);
+
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    const response = await fetch("http://localhost:5000/api/study-sessions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(formData),
+    });
+
+    const data = await response.json();
+    onStudySessionCreated(data);
+    setFormData({
+      courseId: "",
+      sessionDate: "",
+      durationMinutes: "",
+      focusRating: "",
+      topic: "",
+      studyMethod: "",
+    });
+    console.log(data);
+  }
   
   return (
     <section>
       <h2>Add Study Session</h2>
-      <form>
+      <form onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label htmlFor="courseId">Course ID</label>
+          <input
+            id="courseId"
+            name="courseId"
+            type="text"
+            value={formData.courseId}
+            onChange={(event) =>
+              setFormData({ ...formData, courseId: event.target.value })
+            }
+          />
+        </div>
+        
         <div className="form-group">
           <label htmlFor="topic">Topic</label>
           <input id="topic" 

@@ -19,7 +19,11 @@ function App() {
   return (
     <main>
       <h1>Study Session Tracker</h1>
-      <StudySessionForm />
+      <StudySessionForm
+        onStudySessionCreated={(newStudySession) => //onStudySessionCreated = prop
+          setStudySessions((currentSessions) => [newStudySession, ...currentSessions])
+        }
+      />
       <StudySessionList studySessions={studySessions}/>
     </main>
   );
