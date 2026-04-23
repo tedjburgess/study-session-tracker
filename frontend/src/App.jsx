@@ -15,6 +15,16 @@ function App() {
 
     fetchStudySessions();
   }, []);
+
+  async function handleDeleteStudySession(id) {
+    await fetch(`http://localhost:5000/api/study-sessions/${id}`, {
+      method: "DELETE",
+    });
+
+    setStudySessions((currentSessions) => 
+      currentSessions.filter((studySession) => studySession._id !== id)
+    );
+  }
   
   return (
     <main>
@@ -24,7 +34,10 @@ function App() {
           setStudySessions((currentSessions) => [newStudySession, ...currentSessions])
         }
       />
-      <StudySessionList studySessions={studySessions}/>
+      <StudySessionList 
+        studySessions={studySessions}
+        onDelete={handleDeleteStudySession}
+        />
     </main>
   );
 }
