@@ -10,35 +10,49 @@ function StudySessionForm( { onStudySessionCreated } ) {
     studyMethod: "",
   });
 
+  const [error, setError] = useState("");
+
+
   console.log(formData);
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setError("");
+    
+    try {
+      const response = await fetch("http://localhost:5000/api/study-sessions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
-    const response = await fetch("http://localhost:5000/api/study-sessions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(formData),
-    });
+      if (!response.ok) {
+        throw new Error("Failed to create study session");
+      }
 
-    const data = await response.json();
-    onStudySessionCreated(data);
-    setFormData({
-      courseId: "",
-      sessionDate: "",
-      durationMinutes: "",
-      focusRating: "",
-      topic: "",
-      studyMethod: "",
-    });
-    console.log(data);
+      const data = await response.json();
+      onStudySessionCreated(data);
+      setFormData({
+        courseId: "",
+        sessionDate: "",
+        durationMinutes: "",
+        focusRating: "",
+        topic: "",
+        studyMethod: "",
+      });
+      console.log(data);      
+    } catch (error) {
+      setError(error.message);      
+    }
+
   }
   
   return (
     <section>
       <h2>Add Study Session</h2>
+      {error && <p>{error}</p>}
       <form onSubmit={handleSubmit}>
         <div className="form-group">
           <label htmlFor="courseId">Course ID</label>
