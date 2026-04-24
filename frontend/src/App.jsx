@@ -31,6 +31,12 @@ function App() {
   }, []);
 
   async function handleDeleteStudySession(id) {
+    const confirmed = window.confirm("Delete this study session?");
+
+    if (!confirmed) {
+      return;
+    }
+    
     setError("");
     
     try {
