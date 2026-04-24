@@ -1,6 +1,6 @@
 import StudySessionRow from "./StudySessionRow";
 
-function StudySessionList({ studySessions, onDelete }) {
+function StudySessionList({ studySessions, onDelete, onUpdate }) {
     console.log(studySessions);
   
     return (
@@ -12,6 +12,7 @@ function StudySessionList({ studySessions, onDelete }) {
               key={studySession._id} 
               studySession={studySession} 
               onDelete={onDelete}
+              onUpdate={onUpdate}
             />
         ))}
       </div>

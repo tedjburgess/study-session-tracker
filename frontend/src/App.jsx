@@ -50,6 +50,34 @@ function App() {
     }
   }
 
+  async function handleUpdateStudySession(id, updatedStudySession) {
+    setError("");
+
+    try {
+      const response = await fetch(`http://localhost:5000/api/study-sessions/${id}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(updatedStudySession),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update study session");
+      }
+
+      const data = await response.json();
+
+      setStudySessions((prevStudySessions) =>
+        prevStudySessions.map((studySession) =>
+          studySession._id === id ? data : studySession
+        )
+      );
+    } catch (err) {
+      setError(err.message);
+    }
+  }
+
   if (loading) {
     return <p>Loading study sessions...</p>
   }
@@ -69,6 +97,7 @@ function App() {
       <StudySessionList 
         studySessions={studySessions}
         onDelete={handleDeleteStudySession}
+        onUpdate={handleUpdateStudySession}
         />
     </main>
   );
