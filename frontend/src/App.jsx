@@ -29,6 +29,14 @@ function App() {
     }
 
     fetchStudySessions();
+    
+    const intervalId = setInterval(() => {
+      fetchStudySessions();
+    }, 10000);
+
+    return () => {
+      clearInterval(intervalId);
+    };
   }, []);
 
   async function handleDeleteStudySession(id) {
