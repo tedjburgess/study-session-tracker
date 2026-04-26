@@ -33,6 +33,35 @@ function StudySessionRow( { studySession, onDelete, onUpdate } ) {
           onChange={handleEditChange}
         />
 
+        <input
+          type="date"
+          name="sessionDate"
+          value={editFormData.sessionDate}
+          onChange={handleEditChange}
+        />
+
+        <input
+          type="number"
+          name="durationMinutes"
+          value={editFormData.durationMinutes}
+          onChange={handleEditChange}
+        />
+
+        <input
+          type="number"
+          name="focusRating"
+          min="1"
+          max="5"
+          value={editFormData.focusRating}
+          onChange={handleEditChange}
+        />
+
+        <input
+          name="studyMethod"
+          value={editFormData.studyMethod}
+          onChange={handleEditChange}
+        />
+
         <button onClick={handleSave}>Save</button>
         <button onClick={() => setIsEditing(false)}>Cancel</button>
       </li>
@@ -42,6 +71,7 @@ function StudySessionRow( { studySession, onDelete, onUpdate } ) {
   return (
     <div>
       <strong>{studySession.topic}</strong> - {studySession.durationMinutes} min - focus {studySession.focusRating}/5
+      <p>{studySession.studyMethod}</p>
       <button type="button" onClick={() => onDelete(studySession._id)}>
         Delete
       </button>
