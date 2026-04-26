@@ -7,7 +7,8 @@ function App() {
   const [studySessions, setStudySessions] = useState([]); //studySessions = stored data, setStudySessions = the function
   const [loading, setLoading] = useState(true); //Tracks whether the initial fetch is still running
   const [error, setError] = useState(""); //Stores error message if fetch fails
-
+  const [searchTerm, setSearchTerm] = useState("");
+  
   useEffect(() => {
     async function fetchStudySessions() {
       try {
@@ -91,6 +92,10 @@ function App() {
   if (error) {
     return <p>{error}</p>
   }
+
+  const filteredStudySessions = studySessions.filter((studySession) =>
+    studySession.topic.toLowerCase().includes(searchTerm.toLowerCase())
+  );
   
   return (
     <main>
@@ -100,8 +105,16 @@ function App() {
           setStudySessions((currentSessions) => [newStudySession, ...currentSessions])
         }
       />
+
+      <input
+        type="text"
+        placeholder="Search by topic"
+        value={searchTerm}
+        onChange={(event) => setSearchTerm(event.target.value)}
+      />
+
       <StudySessionList 
-        studySessions={studySessions}
+        studySessions={filteredStudySessions}
         onDelete={handleDeleteStudySession}
         onUpdate={handleUpdateStudySession}
         />
